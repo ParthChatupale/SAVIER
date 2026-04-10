@@ -1,0 +1,38 @@
+evidence_harvest:
+  description: >
+    Use the internal DB tools to gather governance evidence:
+    - last 100 audit logs with evidence IDs
+    - aggregated counts by status and agent
+    - top 5 incidents with violation reasons
+    - global metrics and anomaly rate
+  expected_output: >
+    A structured evidence table with IDs, plus a short summary of key incidents
+    and metrics.
+  agent: governance_researcher
+
+risk_posture:
+  description: >
+    Analyze SAFE/WARNING/CRITICAL distributions and explain compliance posture
+    and systemic risks. Use the evidence table and incident summaries.
+  expected_output: >
+    A risk summary that highlights severity distribution, compliance implications,
+    and 2-3 key risks.
+  agent: risk_compliance_analyst
+
+metrics_roi:
+  description: >
+    Interpret time-series metrics: tasks completed, tokens burned, velocity
+    trends, and anomaly rate. Highlight spikes or unusual workloads.
+  expected_output: >
+    A metrics narrative with key numbers, trend direction, and anomaly rate
+    interpretation.
+  agent: metrics_roi_analyst
+
+executive_brief:
+  description: >
+    Compile the final CIO-grade brief using prior outputs. Structure it as:
+    Executive Summary, Governance Posture, Notable Incidents (top 5 + evidence IDs),
+    Metrics & Trends, Recommendations (3-5), Appendix: Evidence Table.
+  expected_output: >
+    A markdown report with the required sections. Do not wrap in code fences.
+  agent: briefing_editor

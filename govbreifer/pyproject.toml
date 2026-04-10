@@ -1,0 +1,27 @@
+[project]
+name = "govbreifer"
+version = "0.1.0"
+description = "govBreifer using crewAI"
+authors = [{ name = "Your Name", email = "you@example.com" }]
+requires-python = ">=3.10,<3.14"
+dependencies = [
+    "crewai[tools]==1.14.1",
+    "litellm>=1.83.0",
+    "psycopg[binary]==3.2.9",
+    "sqlalchemy==2.0.36",
+]
+
+[project.scripts]
+govbreifer = "govbreifer.main:run"
+run_crew = "govbreifer.main:run"
+train = "govbreifer.main:train"
+replay = "govbreifer.main:replay"
+test = "govbreifer.main:test"
+run_with_trigger = "govbreifer.main:run_with_trigger"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.crewai]
+type = "crew"

@@ -1,0 +1,14 @@
+[project]
+name = "playgorund"
+version = "0.1.0"
+description = "Playground for an agent governance SDK and demo backend"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "fastapi>=0.116.1",
+    "pydantic>=2.11.7",
+    "redis>=6.4.0",
+    "requests>=2.32.5",
+    "scikit-learn>=1.7.2",
+    "uvicorn>=0.35.0",
+]

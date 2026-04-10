@@ -11,6 +11,9 @@ logger = logging.getLogger("agent_governance_backend")
 # Connect to your local Ubuntu Redis server
 # decode_responses=True ensures we get normal strings, not raw bytes
 redis_client = redis.Redis(host='localhost', port=6379, db=0, decode_responses=True)
+QUEUE_LIST = "incoming_logs"
+HISTORY_LIST = "incoming_logs_history"
+HISTORY_LIMIT = 1000
 
 class AgentLog(BaseModel):
     run_id: str
@@ -30,13 +33,15 @@ async def ingest_log(log: AgentLog):
 
     # 2. Push it into a high-speed Redis queue named "incoming_logs"
     try:
-        redis_client.lpush("incoming_logs", log_json)
+        redis_client.lpush(QUEUE_LIST, log_json)
+        redis_client.lpush(HISTORY_LIST, log_json)
+        redis_client.ltrim(HISTORY_LIST, 0, HISTORY_LIMIT - 1)
     except Exception as exc:
         logger.exception("Failed to enqueue telemetry to Redis")
         raise HTTPException(status_code=503, detail="Redis unavailable") from exc
 
     # 3. Instantly return success!
-    queue_len = redis_client.llen("incoming_logs")
+    queue_len = redis_client.llen(QUEUE_LIST)
     return {"status": "queued", "queue_len": queue_len}
 
 
@@ -58,7 +63,10 @@ async def health_redis():
 @app.get("/debug/queue")
 async def debug_queue():
     try:
-        return {"incoming_logs": redis_client.llen("incoming_logs")}
+        return {
+            "incoming_logs": redis_client.llen(QUEUE_LIST),
+            "incoming_logs_history": redis_client.llen(HISTORY_LIST),
+        }
     except Exception as exc:
         logger.exception("Redis queue length failed")
         raise HTTPException(status_code=503, detail="Redis unavailable") from exc

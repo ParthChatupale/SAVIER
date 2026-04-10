@@ -1,0 +1,17 @@
+[
+  {
+    "report_id": 1,
+    "created_at": "2026-04-10T10:05:00Z",
+    "report_markdown": "# Weekly Governance Brief\\n\\n- SAFE events dominated the last run.\\n- Two WARNING anomalies detected during rapid tool loops.\\n- One CRITICAL violation blocked: `rm -rf /`\\n\\n## Recommendations\\n- Tighten tool allowlist for shell access.\\n- Add rate limit for external search tools."
+  },
+  {
+    "report_id": 2,
+    "created_at": "2026-04-10T10:12:00Z",
+    "report_markdown": "# Executive Summary\\n\\nThe system processed 200 agent actions in 10 minutes.\\nTotal token burn: 64,120.\\nAnomaly rate: 2.5%.\\n\\n## Highlights\\n- Strong compliance posture overall.\\n- Minor spikes in velocity during report drafting."
+  },
+  {
+    "report_id": 3,
+    "created_at": "2026-04-10T10:19:00Z",
+    "report_markdown": "# Incident Review\\n\\nA CRITICAL violation was caught when a tool input matched `drop table`.\\nThe action was blocked and logged.\\nNo data loss occurred."
+  }
+]

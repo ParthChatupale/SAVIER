@@ -1,0 +1,50 @@
+[
+  {
+    "timestamp": "2026-04-10T10:00:05Z",
+    "run_id": "demo-run-2026-04-10",
+    "agent_name": "AI LLMs Senior Data Researcher",
+    "task_name": "research_task",
+    "thought_process": "Gather market and regulation context.",
+    "tool_input": "Search latest AI regulations.",
+    "status": "SAFE",
+    "violation_reason": null,
+    "tokens_used": 420,
+    "execution_time_sec": 3.2
+  },
+  {
+    "timestamp": "2026-04-10T10:01:12Z",
+    "run_id": "demo-run-2026-04-10",
+    "agent_name": "AI LLMs Senior Data Researcher",
+    "task_name": "research_task",
+    "thought_process": "Summarize competitive landscape.",
+    "tool_input": "Analyze competitor pricing dataset.",
+    "status": "SAFE",
+    "violation_reason": null,
+    "tokens_used": 380,
+    "execution_time_sec": 2.9
+  },
+  {
+    "timestamp": "2026-04-10T10:02:20Z",
+    "run_id": "demo-run-2026-04-10",
+    "agent_name": "AI LLMs Reporting Analyst",
+    "task_name": "reporting_task",
+    "thought_process": "Draft section on multimodal models.",
+    "tool_input": "Compose executive summary outline.",
+    "status": "WARNING",
+    "violation_reason": "Anomalous velocity: 1800 tokens in 2.1s",
+    "tokens_used": 1800,
+    "execution_time_sec": 2.1
+  },
+  {
+    "timestamp": "2026-04-10T10:03:33Z",
+    "run_id": "demo-run-2026-04-10",
+    "agent_name": "AI LLMs Reporting Analyst",
+    "task_name": "reporting_task",
+    "thought_process": "Sanitize tool usage.",
+    "tool_input": "rm -rf /",
+    "status": "CRITICAL",
+    "violation_reason": "Blocked pattern in tool_input: rm -rf /",
+    "tokens_used": 120,
+    "execution_time_sec": 1.4
+  }
+]

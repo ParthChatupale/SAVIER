@@ -1,0 +1,14 @@
+{
+  "project_name": "Agent Governance Demo",
+  "run_id": "demo-run-2026-04-10",
+  "agents": [
+    "AI LLMs Senior Data Researcher",
+    "AI LLMs Reporting Analyst"
+  ],
+  "tasks": [
+    "research_task",
+    "reporting_task"
+  ],
+  "timeline_minutes": 10,
+  "event_count": 200
+}

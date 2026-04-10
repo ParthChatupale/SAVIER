@@ -23,11 +23,13 @@ warnings.filterwarnings("ignore", category=SyntaxWarning, module="pysbd")
 SDK_BACKEND_URL = os.getenv("AGENT_GOVERNANCE_BACKEND_URL", "http://localhost:8000/ingest")
 SDK_PROJECT_NAME = os.getenv("AGENT_GOVERNANCE_PROJECT_NAME", "analyzesys")
 SDK_DEBUG = os.getenv("AGENT_GOVERNANCE_DEBUG", "true").lower() == "true"
+SDK_TIMEOUT_SEC = float(os.getenv("AGENT_GOVERNANCE_TIMEOUT_SEC", "10"))
 
 @monitor_crew(
     backend_url=SDK_BACKEND_URL,
     project_name=SDK_PROJECT_NAME,
     debug=SDK_DEBUG,
+    timeout_sec=SDK_TIMEOUT_SEC,
 )
 def run():
     """
@@ -96,6 +98,7 @@ def test():
     backend_url=SDK_BACKEND_URL,
     project_name=SDK_PROJECT_NAME,
     debug=SDK_DEBUG,
+    timeout_sec=SDK_TIMEOUT_SEC,
 )
 def run_with_trigger():
     """

@@ -10,15 +10,42 @@ from crewai.agents.agent_builder.base_agent import BaseAgent
 from govbreifer.tools import DBAuditTool, DBMetricsTool, DBReportsTool
 
 
-FAST_MODEL = os.getenv("GOVBREIFER_MODEL_FAST", "nvidia_nim/google/gemma-4-31b-it")
+FAST_MODEL = os.getenv("GOVBREIFER_MODEL_FAST", "nvidia_nim/openai/gpt-oss-20b")
 FINAL_MODEL = os.getenv("GOVBREIFER_MODEL_FINAL", "nvidia_nim/openai/gpt-oss-120b")
 
 DEFAULT_NIM_KEY = os.getenv("NVIDIA_NIM_API_KEY")
-FAST_NIM_KEY = os.getenv("GOVBREIFER_NIM_API_KEY_FAST", DEFAULT_NIM_KEY)
-FINAL_NIM_KEY = os.getenv("GOVBREIFER_NIM_API_KEY_FINAL", DEFAULT_NIM_KEY)
+FAST_NIM_KEY = os.getenv("GOVBREIFER_NIM_API_KEY_FAST") or DEFAULT_NIM_KEY
+FINAL_NIM_KEY = os.getenv("GOVBREIFER_NIM_API_KEY_FINAL") or DEFAULT_NIM_KEY
 
-FAST_LLM = LLM(model=FAST_MODEL, api_key=FAST_NIM_KEY)
-FINAL_LLM = LLM(model=FINAL_MODEL, api_key=FINAL_NIM_KEY)
+NIM_BASE_URL = os.getenv("NVIDIA_NIM_API_BASE", "https://integrate.api.nvidia.com/v1")
+
+FAST_LLM = LLM(
+    model=FAST_MODEL,
+    api_key=FAST_NIM_KEY,
+    api_base=NIM_BASE_URL,
+    is_litellm=True,
+    provider="nvidia_nim",
+    temperature=0.2,
+    top_p=1,
+    max_tokens=512,
+    timeout=120,
+)
+
+FINAL_LLM = LLM(
+    model=FINAL_MODEL,
+    api_key=FINAL_NIM_KEY,
+    api_base=NIM_BASE_URL,
+    is_litellm=True,
+    provider="nvidia_nim",
+    temperature=0.2,
+    top_p=1,
+    max_tokens=1024,
+    timeout=180,
+)
+
+USE_SINGLE_MODEL = os.getenv("GOVBREIFER_SINGLE_MODEL", "false").lower() == "true"
+if USE_SINGLE_MODEL:
+    FAST_LLM = FINAL_LLM
 
 
 @CrewBase

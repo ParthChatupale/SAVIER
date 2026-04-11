@@ -12,6 +12,9 @@ if str(REPO_ROOT) not in sys.path:
 
 from govbreifer.crew import Govbreifer
 from agent_governance_sdk import monitor_crew
+from sqlalchemy import func, select
+from sqlalchemy.exc import IntegrityError
+
 from database import SessionLocal
 from models import GeneratedReport
 
@@ -43,13 +46,21 @@ def _normalize_output(result: object) -> str:
 
 def _persist_report(markdown: str) -> None:
     with SessionLocal() as db:
-        db.add(
-            GeneratedReport(
-                created_at=datetime.now(timezone.utc),
-                report_markdown=markdown,
-            )
+        report = GeneratedReport(
+            created_at=datetime.now(timezone.utc),
+            report_markdown=markdown,
         )
-        db.commit()
+        db.add(report)
+        try:
+            db.commit()
+        except IntegrityError:
+            db.rollback()
+            next_id = db.execute(
+                select(func.coalesce(func.max(GeneratedReport.report_id), 0))
+            ).scalar_one() + 1
+            report.report_id = next_id
+            db.add(report)
+            db.commit()
 
 
 def _write_report(markdown: str) -> None:
